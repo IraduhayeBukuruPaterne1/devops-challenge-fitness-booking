@@ -74,14 +74,13 @@ WSGI_APPLICATION = 'fitness_booking.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'fitness_booking_db',  # Update with your database name
-        'USER': 'your_postgres_user',  # Update with your Postgres user
-        'PASSWORD': 'your_postgres_password',  # Update with your Postgres password
-        'HOST': 'db',  # Use the name of the DB container here (db is common)
+        'NAME': 'fitness_booking',  # Match this with the database name in docker-compose.yml
+        'USER': 'user',  # Match with the user defined in docker-compose.yml
+        'PASSWORD': 'password',  # Match with the password defined in docker-compose.yml
+        'HOST': 'db',  # Use the name of the DB container as the host
         'PORT': '5432',
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -118,4 +117,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
