@@ -77,13 +77,11 @@ DATABASES = {
         'NAME': 'fitness_booking_db',  # Update with your database name
         'USER': 'your_postgres_user',  # Update with your Postgres user
         'PASSWORD': 'your_postgres_password',  # Update with your Postgres password
-        'HOST': 'localhost',  # Or use 'db' if using Docker
+        'HOST': 'db',  # Use the name of the DB container here (db is common)
         'PORT': '5432',
     }
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
