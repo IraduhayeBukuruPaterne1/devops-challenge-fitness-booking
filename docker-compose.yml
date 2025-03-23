@@ -1,9 +1,10 @@
-version: '3.8'
+version: '3'
 
 services:
   web:
     build: .
-    command: gunicorn fitness_booking.wsgi:application --bind 0.0.0.0:8000
+    command: >
+      bash -c "wait-for-it db:5432 -- python manage.py migrate && gunicorn myproject.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
