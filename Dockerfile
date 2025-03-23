@@ -1,18 +1,21 @@
-# Use Python 3.11 as the base image
+# Use the Python slim image as base
 FROM python:3.11-slim
 
-# Install system dependencies (bash, curl, etc.)
+# Set environment variables to prevent Python from writing .pyc files and buffering stdout
+ENV PYTHONUNBUFFERED=1
+
+# Install required packages for wait-for-it
 RUN apt-get update && apt-get install -y bash curl \
     && curl -sSLo /usr/local/bin/wait-for-it https://github.com/vishnubob/wait-for-it/releases/download/v2.3.0/wait-for-it.sh \
     && chmod +x /usr/local/bin/wait-for-it
 
-# Set the working directory in the container
+# Set the working directory to /app
 WORKDIR /app
 
-# Copy the requirements file to the container
-COPY requirements.txt /app/
+# Copy the requirements.txt into the container
+COPY requirements.txt .
 
-# Install the dependencies from the requirements file
+# Install dependencies
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Copy the application code into the container
