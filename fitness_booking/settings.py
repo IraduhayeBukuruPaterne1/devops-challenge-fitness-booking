@@ -12,7 +12,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']  # Allow all hosts in development (for production, add specific domains)
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -20,8 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Add your apps here, e.g.
-    # 'booking',
+    'booking',  # ✅ Add your new booking app here
 ]
 
 MIDDLEWARE = [
@@ -39,7 +37,7 @@ ROOT_URLCONF = 'fitness_booking.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # 🔥 Add a templates folder
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -59,9 +57,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'fitness_booking_db',  # Match the db name in docker-compose.yml
-        'USER': 'user',  # Match the user in docker-compose.yml
-        'PASSWORD': 'password',  # Match the password in docker-compose.yml
-        'HOST': 'db',  # This should match the name of the PostgreSQL service in docker-compose.yml
+        'USER': 'user',                # Match the user in docker-compose.yml
+        'PASSWORD': 'password',        # Match the password in docker-compose.yml
+        'HOST': 'db',                  # PostgreSQL service in docker-compose.yml
         'PORT': '5432',
     }
 }
@@ -88,6 +86,11 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, images)
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+# Configure static and media files
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
