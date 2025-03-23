@@ -29,6 +29,6 @@ CMD ["bash", "-c", "wait-for-it db:5432 -- python manage.py migrate && gunicorn 
 
 # Install required packages for wait-for-it
 RUN apt-get update && apt-get install -y bash curl \
-    && curl -sSLo /usr/local/bin/wait-for-it https://github.com/vishnubob/wait-for-it/releases/download/v2.3.0/wait-for-it.sh \
+    && curl -sSLo /usr/local/bin/wait-for-it https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
     && chmod +x /usr/local/bin/wait-for-it \
     && ls -l /usr/local/bin/wait-for-it  # Debug step to check if the file exists and is executable
