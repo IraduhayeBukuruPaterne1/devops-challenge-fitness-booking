@@ -10,7 +10,6 @@ urlpatterns = [
     # Admin interface URL
     path('admin/', admin.site.urls),
     
-    # Add a URL for the home page
+    # Root URL for the home page
     path('', home, name='home'),
 ]
-
