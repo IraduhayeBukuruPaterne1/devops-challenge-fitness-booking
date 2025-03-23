@@ -74,13 +74,14 @@ WSGI_APPLICATION = 'fitness_booking.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'fitness_booking',  # Match this with the database name in docker-compose.yml
-        'USER': 'user',  # Match with the user defined in docker-compose.yml
-        'PASSWORD': 'password',  # Match with the password defined in docker-compose.yml
-        'HOST': 'db',  # Use the name of the DB container as the host
+        'NAME': 'your_db_name',
+        'USER': 'postgres',  # default postgres user
+        'PASSWORD': 'your_db_password',  # if you set one
+        'HOST': 'db',  # This is the service name of the database container
         'PORT': '5432',
     }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
