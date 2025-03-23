@@ -74,10 +74,10 @@ WSGI_APPLICATION = 'fitness_booking.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'your_db_name',
-        'USER': 'postgres',  # default postgres user
-        'PASSWORD': 'your_db_password',  # if you set one
-        'HOST': 'db',  # This is the service name of the database container
+        'NAME': 'yourdbname',
+        'USER': 'postgres',
+        'PASSWORD': 'yourpassword',
+        'HOST': 'db',  # Assuming the service name is 'db'
         'PORT': '5432',
     }
 }
