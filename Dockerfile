@@ -27,3 +27,8 @@ EXPOSE 8000
 # Command to start the application with wait-for-it
 CMD ["bash", "-c", "wait-for-it db:5432 -- python manage.py migrate && gunicorn fitness_booking.wsgi:application --bind 0.0.0.0:8000"]
 
+# Install required packages for wait-for-it
+RUN apt-get update && apt-get install -y bash curl \
+    && curl -sSLo /usr/local/bin/wait-for-it https://github.com/vishnubob/wait-for-it/releases/download/v2.3.0/wait-for-it.sh \
+    && chmod +x /usr/local/bin/wait-for-it \
+    && ls -l /usr/local/bin/wait-for-it  # Debug step to check if the file exists and is executable
