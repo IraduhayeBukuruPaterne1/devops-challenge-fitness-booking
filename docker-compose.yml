@@ -1,23 +1,24 @@
-version: "3.9"
+version: '3'
 
 services:
- db:
-  image: postgres:13
-  environment:
-    POSTGRES_USER: postgres
-    POSTGRES_PASSWORD: yourpassword
-    POSTGRES_DB: yourdbname
-  volumes:
-    - postgres_data:/var/lib/postgresql/data
-
   web:
     build:
-      context: .  # This will use the current directory (root) as the build context
-      dockerfile: Dockerfile  # This ensures the correct Dockerfile is used
-    command: bash -c "wait-for-it db:5432 -- python manage.py migrate && gunicorn fitness_booking.wsgi:application --bind 0.0.0.0:8000"
-    volumes:
-      - .:/app
+      context: .
     ports:
       - "8000:8000"
     depends_on:
       - db
+    volumes:
+      - .:/app
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: fitness_booking_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
