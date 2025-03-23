@@ -77,10 +77,11 @@ DATABASES = {
         'NAME': 'yourdbname',
         'USER': 'postgres',
         'PASSWORD': 'yourpassword',
-        'HOST': 'db',  # Assuming the service name is 'db'
+        'HOST': 'db',  # this should match the name of your PostgreSQL service in docker-compose.yml
         'PORT': '5432',
     }
 }
+
 
 
 AUTH_PASSWORD_VALIDATORS = [
