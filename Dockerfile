@@ -1,18 +1,21 @@
-# Use the official Python image from Docker Hub
+# Use a Python base image
 FROM python:3.11-slim
 
-# Install required dependencies including wait-for-it
-RUN apt-get update && apt-get install -y \
-    bash \
-    curl \
-    && curl -sSLo /usr/local/bin/wait-for-it https://github.com/vishnubob/wait-for-it/releases/download/v2.9.0/wait-for-it-linux-amd64 \
-    && chmod +x /usr/local/bin/wait-for-it
+# Set environment variables
+ENV PYTHONUNBUFFERED 1
 
-# Set the working directory in the container
+# Install dependencies and the wait-for-it script
+RUN apt-get update && apt-get install -y bash curl && \
+    curl -sSLo /usr/local/bin/wait-for-it https://github.com/vishnubob/wait-for-it/releases/download/v2.3.0/wait-for-it.sh && \
+    chmod +x /usr/local/bin/wait-for-it
+
+# Set the working directory
 WORKDIR /app
 
-# Copy the requirements file and install the dependencies
+# Copy the requirements.txt file
 COPY requirements.txt .
+
+# Install Python dependencies
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Copy the application code into the container
