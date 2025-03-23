@@ -1,25 +1,22 @@
-# Use a Python base image
+# Use Python 3.11 as the base image
 FROM python:3.11-slim
 
-# Set environment variables
-ENV PYTHONUNBUFFERED 1
+# Install system dependencies (bash, curl, etc.)
+RUN apt-get update && apt-get install -y bash curl \
+    && curl -sSLo /usr/local/bin/wait-for-it https://github.com/vishnubob/wait-for-it/releases/download/v2.3.0/wait-for-it.sh \
+    && chmod +x /usr/local/bin/wait-for-it
 
-# Install dependencies and the wait-for-it script
-RUN apt-get update && apt-get install -y bash curl && \
-    curl -sSLo /usr/local/bin/wait-for-it https://github.com/vishnubob/wait-for-it/releases/download/v2.3.0/wait-for-it.sh && \
-    chmod +x /usr/local/bin/wait-for-it
-
-# Set the working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the requirements.txt file
-COPY requirements.txt .
+# Copy the requirements file to the container
+COPY requirements.txt /app/
 
-# Install Python dependencies
+# Install the dependencies from the requirements file
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Copy the application code into the container
-COPY fitness_booking /app
+COPY fitness_booking /app/fitness_booking
 
 # Expose port 8000 for the web service
 EXPOSE 8000
