@@ -5,4 +5,3 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ['user_name', 'user_email', 'fitness_class']
-

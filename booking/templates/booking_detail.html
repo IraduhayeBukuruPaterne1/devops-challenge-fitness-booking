@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking Detail{% endblock %}
+
+{% block content %}
+    <h1>Booking Detail</h1>
+    <p><strong>Name:</strong> {{ booking.user_name }}</p>
+    <p><strong>Email:</strong> {{ booking.user_email }}</p>
+    <p><strong>Class:</strong> {{ booking.fitness_class.title }}</p>
+    <p><strong>Booking Date:</strong> {{ booking.booking_date }}</p>
+    <a href="{% url 'booking_list' %}" class="btn btn-primary">Back to Bookings</a>
+{% endblock %}

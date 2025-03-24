@@ -6,10 +6,8 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 # Quick-start development settings - unsuitable for production
 SECRET_KEY = 'django-insecure-your-secret-key'  # Replace with a secure key!
-
 DEBUG = True
-
-ALLOWED_HOSTS = ['*']  # Allow all hosts in development (for production, add specific domains)
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
@@ -19,7 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'booking',  # ✅ Add your new booking app here
+    'booking',  # Added booking app
 ]
 
 MIDDLEWARE = [
@@ -37,7 +35,7 @@ ROOT_URLCONF = 'fitness_booking.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # 🔥 Add a templates folder
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # Global templates directory
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -56,27 +54,19 @@ WSGI_APPLICATION = 'fitness_booking.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'fitness_booking_db',  # Match the db name in docker-compose.yml
-        'USER': 'user',                # Match the user in docker-compose.yml
-        'PASSWORD': 'password',        # Match the password in docker-compose.yml
-        'HOST': 'db',                  # PostgreSQL service in docker-compose.yml
+        'NAME': 'fitness_booking_db',  # Must match docker-compose setting
+        'USER': 'user',                # Must match docker-compose setting
+        'PASSWORD': 'password',        # Must match docker-compose setting
+        'HOST': 'db',                  # Docker Compose service name for PostgreSQL
         'PORT': '5432',
     }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
 ]
 
 # Internationalization
@@ -87,9 +77,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, images)
 STATIC_URL = '/static/'
-
-# Configure static and media files
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+# Media files configuration (optional)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
