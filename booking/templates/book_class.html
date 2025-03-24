@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Book a Class</title>
+  <meta charset="UTF-8">
+  <title>Book a Class</title>
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Book a Class</h1>
+  <div class="container mt-5">
+    <h1 class="mb-4">Book a Class</h1>
     <form method="post">
-        {% csrf_token %}
+      {% csrf_token %}
+      <div class="form-group">
         {{ form.as_p }}
-        <button type="submit">Book Now</button>
+      </div>
+      <button type="submit" class="btn btn-primary">Book Now</button>
     </form>
+  </div>
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
