@@ -3,11 +3,10 @@ version: "3.8"
 services:
   db:
     image: postgres:latest
-    eenvironment:
-  POSTGRES_DB: fitness_booking_db
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: password
-
+    environment:
+      POSTGRES_DB: fitness_booking_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -33,3 +32,4 @@ volumes:
 networks:
   fitness_network:
     driver: bridge  # Define the network driver for internal networking
+
