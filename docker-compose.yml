@@ -10,8 +10,12 @@ services:
       - db
     volumes:
       - .:/app
+      - ./static:/app/static  # Volume for static files
+      - ./media:/app/media    # Volume for media files
     environment:
       - PYTHONUNBUFFERED=1
+    networks:
+      - default
 
   db:
     image: postgres:latest
@@ -21,6 +25,14 @@ services:
       POSTGRES_DB: fitness_booking_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - default
 
 volumes:
   postgres_data:
+
+networks:
+  default:
+    external:
+      name: fitness_network  # Optional, if you want to customize network name
+
