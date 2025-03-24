@@ -10,7 +10,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - fitness_network  # Ensure this matches the network your other services are using
+      - fitness_network  # No external: true
 
   web:
     build: .
@@ -24,12 +24,11 @@ services:
     ports:
       - "8000:8000"
     networks:
-      - fitness_network  # Ensure this matches the network your database service is using
+      - fitness_network  # No external: true
 
 volumes:
   postgres_data:
 
 networks:
   fitness_network:
-    external: true  # Use this if you're connecting to an existing external network
-
+    driver: bridge  # Define the network driver for internal networking
