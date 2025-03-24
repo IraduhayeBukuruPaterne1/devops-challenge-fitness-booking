@@ -1,13 +1,16 @@
-from django.shortcuts import render
-from .models import Trainer, Class, Booking
+from django.shortcuts import render, redirect
+from .forms import BookingForm
 
-def home(request):
-    trainers = Trainer.objects.all()
-    classes = Class.objects.all()
-    bookings = Booking.objects.all()
-    context = {
-        'trainers': trainers,
-        'classes': classes,
-        'bookings': bookings,
-    }
-    return render(request, 'booking/home.html', context)
+def book_class(request):
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('booking_success')
+    else:
+        form = BookingForm()
+    return render(request, 'booking/book_class.html', {'form': form})
+
+def booking_success(request):
+    return render(request, 'booking/booking_success.html')
+
