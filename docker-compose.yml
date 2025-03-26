@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   db:
     image: postgres:latest
@@ -8,9 +6,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password  # Replace with your actual password
     ports:
-      - "5432:5432"  # Remove the duplicate line
+      - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data  # Remove the duplicate line
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - fitness_network
 
