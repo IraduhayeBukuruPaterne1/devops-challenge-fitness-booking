@@ -1,0 +1,25 @@
+---
+- name: Deploy Django Application
+  hosts: all
+  become: yes
+  tasks:
+    - name: Pull Docker images from Docker Hub
+      docker_image:
+        name: "{{ item }}"
+        source: pull
+      loop:
+        - your-django-image
+        - postgres:17
+        - nginx
+        - mailhog/mailhog
+
+    - name: Copy docker-compose.yml to server
+      copy:
+        src: /path/to/docker-compose.yml
+        dest: /home/user/docker-compose.yml
+
+    - name: Run docker-compose up
+      command: docker-compose up -d
+      args:
+        chdir: /home/user/
+
