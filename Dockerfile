@@ -7,6 +7,10 @@ ENV PYTHONUNBUFFERED=1
 # Set the working directory
 WORKDIR /app
 
+# Install system dependencies (Add PostgreSQL development libraries)
+RUN apt-get update && apt-get install -y \
+    libpq-dev gcc python3-dev musl-dev
+
 # Install dependencies
 COPY requirements.txt .
 RUN pip install --upgrade pip

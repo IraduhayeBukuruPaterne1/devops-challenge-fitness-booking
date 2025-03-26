@@ -1,8 +1,6 @@
-version: "3.9"
-
 services:
   db:
-    image: postgres:13
+    image: postgres:17
     environment:
       POSTGRES_DB: fitness_booking_db
       POSTGRES_USER: postgres
