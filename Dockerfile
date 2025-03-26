@@ -8,7 +8,11 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # Install system dependencies for psycopg2
-RUN apt-get update && apt-get install -y libpq-dev
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    gcc \
+    g++ \
+    make
 
 # Install Python dependencies
 COPY requirements.txt .
