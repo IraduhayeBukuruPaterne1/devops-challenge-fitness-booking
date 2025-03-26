@@ -2,34 +2,33 @@ version: "3.8"
 
 services:
   db:
-    image: postgres:latest
+    image: postgres:14
+    container_name: fitness_db
     environment:
-      POSTGRES_DB: fitness_booking_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres           # Creates the 'postgres' role
+      POSTGRES_PASSWORD: postgres       # Sets the password
+      POSTGRES_DB: fitness_booking_db   # Creates the database
+    ports:
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - fitness_network  # No external: true
+      - fitness_network
 
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/app
-    depends_on:
-      - db
-    environment:
-      - DATABASE_URL=postgres://user:password@db/dbname  # Django will use this to connect
+    container_name: fitness_web
     ports:
       - "8000:8000"
     networks:
-      - fitness_network  # No external: true
+      - fitness_network
+    depends_on:
+      - db
 
 volumes:
   postgres_data:
 
 networks:
   fitness_network:
-    driver: bridge  # Define the network driver for internal networking
+    driver: bridge
 
