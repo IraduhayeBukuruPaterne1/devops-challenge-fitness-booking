@@ -39,4 +39,3 @@ volumes:
 networks:
   fitness_network:
     driver: bridge
-

@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import dj_database_url  # Import to handle DATABASE_URL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -50,18 +51,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fitness_booking.wsgi.application'
 
-# Database configuration
+# Database configuration using DATABASE_URL from Docker
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'fitness_booking_db',  # Must match docker-compose setting
-        'USER': 'user',                # Must match docker-compose setting
-        'PASSWORD': 'password',        # Must match docker-compose setting
-        'HOST': 'db',                  # Docker Compose service name for PostgreSQL
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(default='postgresql://postgres:password@db:5432/fitness_booking_db')
 }
 
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
@@ -75,11 +70,10 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, images)
+# Static and media files
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-# Media files configuration (optional)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
