@@ -2,12 +2,16 @@ version: "3.8"
 
 services:
   db:
-    image: postgres:14
-    container_name: fitness_db
+    image: postgres:latest
     environment:
-      POSTGRES_USER: postgres           # Creates the 'postgres' role
-      POSTGRES_PASSWORD: postgres       # Sets the password
-      POSTGRES_DB: fitness_booking_db   # Creates the database
+      POSTGRES_DB: fitness_booking_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password  # Replace with your actual password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
     ports:
       - "5432:5432"
     volumes:
