@@ -85,7 +85,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Static files configuration
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # ✅ Added this line
+STATIC_ROOT = STATIC_ROOT = BASE_DIR / "staticfiles"
+
 
 # Media files configuration (if applicable)
 MEDIA_URL = '/media/'
