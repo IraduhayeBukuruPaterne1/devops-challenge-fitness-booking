@@ -1,0 +1,54 @@
+---
+- name: Deploy Fitness Booking System
+  hosts: all
+  become: yes
+  vars:
+    docker_compose_dir: "/home/{{ ansible_user }}/fitness-booking"  # Replace with the deployment path on the server
+    docker_compose_file: "{{ docker_compose_dir }}/docker-compose.yml"
+  tasks:
+
+    - name: Ensure Docker and Docker Compose are installed
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+        state: present
+        update_cache: yes
+
+    - name: Create deployment directory
+      file:
+        path: "{{ docker_compose_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Copy project files to server
+      copy:
+        src: "{{ item }}"
+        dest: "{{ docker_compose_dir }}/"
+        mode: '0644'
+      with_fileglob:
+        - "../Dockerfile"
+        - "../docker-compose.yml"
+        - "../nginx.conf"
+        - "../fitness"
+        - "../fitness_booking"
+        - "../requirements.txt"
+        - "../manage.py"
+
+    - name: Pull Docker images from Docker Hub
+      community.docker.docker_compose_pull:
+        project_src: "{{ docker_compose_dir }}"
+
+    - name: Start the Docker containers
+      community.docker.docker_compose:
+        project_src: "{{ docker_compose_dir }}"
+        state: present
+        restarted: yes
+
+    - name: Ensure Docker containers are running
+      shell: docker ps
+      register: docker_ps
+
+    - debug:
+        var: docker_ps.stdout
+
