@@ -1,16 +1,24 @@
+version: '3.8'
+
 services:
   db:
     image: postgres:latest
+    container_name: fitness_db
     environment:
       POSTGRES_DB: fitness_booking_db
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password  # Replace with your actual password
+      POSTGRES_PASSWORD: password  # Replace with a secure password
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - fitness_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d fitness_booking_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   web:
     build: .
@@ -20,7 +28,12 @@ services:
     networks:
       - fitness_network
     depends_on:
-      - db
+      db:
+        condition: service_healthy  # Ensure the database is healthy before starting the web service
+    environment:
+      DATABASE_URL: "postgresql://postgres:password@db:5432/fitness_booking_db"  # Use environment variable for DB connection
+    volumes:
+      - .:/app  # Mount your local app directory into the container for easier development
 
 volumes:
   postgres_data:
