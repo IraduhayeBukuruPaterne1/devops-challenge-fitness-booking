@@ -1,44 +1,45 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:latest
-    container_name: fitness_db
-    environment:
-      POSTGRES_DB: fitness_booking_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password  # Use a secure password
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - fitness_network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d fitness_booking_db"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
   web:
-    build: .
-    container_name: fitness_web
-    ports:
-      - "8000:8000"
-    networks:
-      - fitness_network
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      DATABASE_URL: "postgresql://postgres:password@db:5432/fitness_booking_db"
+    build:
+      context: .
+    container_name: django_app
+    command: gunicorn fitness_booking.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/app
+      - static_volume:/app/static
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: fitness_booking
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_server
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - static_volume:/app/static
+    ports:
+      - "80:80"
+    depends_on:
+      - web
 
 volumes:
   postgres_data:
-
-networks:
-  fitness_network:
-    driver: bridge
+  static_volume:
 

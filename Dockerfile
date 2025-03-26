@@ -1,23 +1,26 @@
-# Use a base Python image
+# Use official Python image
 FROM python:3.11-slim
 
-# Set working directory
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+
+# Set the working directory
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    libpq-dev gcc
-
-# Install Python dependencies
+# Install dependencies
 COPY requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
 # Copy project files
 COPY . .
 
-# Expose port
+# Collect static files
+RUN python manage.py collectstatic --noinput
+
+# Expose the application port
 EXPOSE 8000
 
-# Start the Django server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Use Gunicorn as the WSGI server
+CMD ["gunicorn", "fitness_booking.wsgi:application", "--bind", "0.0.0.0:8000"]
 
