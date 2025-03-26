@@ -8,14 +8,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password  # Replace with your actual password
     ports:
-      - "5432:5432"
+      - "5432:5432"  # Remove the duplicate line
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data  # Remove the duplicate line
     networks:
       - fitness_network
 
@@ -35,4 +30,3 @@ volumes:
 networks:
   fitness_network:
     driver: bridge
-
