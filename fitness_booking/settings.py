@@ -29,3 +29,8 @@ DATABASES = {
     }
 }
 
+# Static files (CSS, JavaScript, images)
+STATIC_URL = '/static/'
+
+# Add this setting to collect static files into the staticfiles directory
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

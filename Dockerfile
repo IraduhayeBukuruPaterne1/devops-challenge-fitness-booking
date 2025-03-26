@@ -22,6 +22,9 @@ RUN pip install -r requirements.txt
 # Copy project files
 COPY . .
 
+# Ensure the staticfiles directory exists
+RUN mkdir -p /app/staticfiles
+
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
