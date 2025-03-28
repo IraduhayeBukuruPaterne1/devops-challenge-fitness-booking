@@ -1,18 +1,19 @@
-"""
-Django settings for fitness_booking project.
-"""
-
 from pathlib import Path
 import os
+import environ
+
+# Initialize environment variables
+env = environ.Env()
+environ.Env.read_env()  # This reads the .env file
 
 # Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'your-secret-key')
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
+DEBUG = env.bool('DEBUG', default=True)
 
 ALLOWED_HOSTS = ['*']
 
@@ -55,15 +56,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fitness_booking.wsgi.application'
 
-# ✅ Database configuration using environment variables for flexibility
+# Database configuration using environment variables for flexibility
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'fitness_db'),
-        'USER': os.getenv('POSTGRES_USER', 'postgres'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'postgres'),
-        'HOST': os.getenv('POSTGRES_HOST', 'db'),
-        'PORT': os.getenv('POSTGRES_PORT', '5432'),
+        'NAME': env('POSTGRES_DB'),
+        'USER': env('POSTGRES_USER'),
+        'PASSWORD': env('POSTGRES_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
 }
 
@@ -83,18 +84,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# ✅ Static files configuration
+# Static files configuration
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"  # Ensure STATIC_ROOT is correctly set for collectstatic
 
-# ✅ Media files configuration (if applicable)
+# Media files configuration (if applicable)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# ✅ Gunicorn settings
+# Gunicorn settings
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# ✅ Caching configuration (Optional - Redis or file cache)
+# Caching configuration (Optional - Redis or file cache)
 # CACHES = {
 #     'default': {
 #         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -102,7 +103,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 #     }
 # }
 
-# ✅ Logging for better debugging in production
+# Logging for better debugging in production
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
