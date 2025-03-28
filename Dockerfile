@@ -7,11 +7,12 @@ ENV PYTHONUNBUFFERED=1
 # Set the working directory
 WORKDIR /app
 
-# Install system dependencies (Add PostgreSQL development libraries)
+# Install system dependencies (including PostgreSQL client)
 RUN apt-get update && apt-get install -y \
-    libpq-dev gcc python3-dev musl-dev
+    libpq-dev gcc python3-dev musl-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
+# Install Python dependencies
 COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
@@ -19,10 +20,8 @@ RUN pip install -r requirements.txt
 # Copy the application files
 COPY . .
 
-# Create static files directory
-RUN mkdir -p /app/staticfiles
-
 # Collect static files and apply migrations
+RUN mkdir -p /app/staticfiles
 RUN python manage.py makemigrations
 RUN python manage.py migrate
 RUN python manage.py collectstatic --noinput
